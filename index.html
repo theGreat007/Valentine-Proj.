@@ -2,454 +2,265 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>YangyangXjboooyyy</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vivienee💖</title>
 
 <style>
-  *{ box-sizing: border-box; }
+*{ box-sizing:border-box; }
 
-  body{
-    margin:0;
-    height:100vh;
-    display:grid;
-    place-items:center;
-    background: radial-gradient(circle at top, #ffd6e5, #ff7aa6, #ff2f6d);
-    overflow:hidden;
-    font-family: system-ui, Arial, sans-serif;
-  }
+body{
+  margin:0;
+  height:100vh;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  font-family:system-ui, Arial, sans-serif;
+}
 
-  /* floating hearts */
-  .heart{
-    position:absolute;
-    width:16px;
-    height:16px;
-    background: rgba(255,255,255,0.55);
-    transform: rotate(45deg);
-    animation: floatUp 7s linear infinite;
-    border-radius: 4px;
-    pointer-events:none;
-  }
-  .heart::before,.heart::after{
-    content:"";
-    position:absolute;
-    width:16px;
-    height:16px;
-    background: rgba(255,255,255,0.55);
-    border-radius:50%;
-  }
-  .heart::before{ left:-8px; top:0; }
-  .heart::after{ top:-8px; left:0; }
+/* ================= BACKGROUND CAROUSEL ================= */
 
-  @keyframes floatUp{
-    0%{ transform: translateY(110vh) rotate(45deg) scale(0.6); opacity:0; }
-    15%{ opacity:0.8; }
-    100%{ transform: translateY(-140px) rotate(45deg) scale(1.1); opacity:0; }
-  }
+.bg-carousel{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+}
 
-  /* Card */
-  .card{
-    width:min(420px, 92vw);
-    padding:26px 22px;
-    border-radius:24px;
-    background: rgba(255,255,255,0.16);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 18px 50px rgba(0,0,0,0.18);
-    text-align:center;
-    color:white;
-    position:relative;
-    z-index:5;
-  }
+.bg-slide{
+  position:absolute;
+  inset:0;
+  background-size:cover;
+  background-position:center;
+  opacity:0;
+  transform:scale(1.15);
+  transition:opacity 1.5s ease, transform 6s ease;
+}
 
-  h1{
-    margin:0 0 10px;
-    font-size: 26px;
-    letter-spacing: 0.2px;
-    text-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  }
+.bg-slide.active{
+  opacity:1;
+  transform:scale(1);
+}
 
-  p{
-    margin:0 0 18px;
-    opacity:0.95;
-  }
+.bg-carousel::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.35);
+}
 
-  .btn-row{
-    display:flex;
-    justify-content:center;
-    gap:14px;
-    flex-wrap:wrap;
-    margin-top:10px;
-    position:relative;
-  }
+/* ================= FLOATING HEARTS ================= */
 
-  button{
-    border:none;
-    padding:12px 18px;
-    border-radius:999px;
-    font-size:16px;
-    font-weight:800;
-    cursor:pointer;
-    transition: transform 0.12s ease, filter 0.12s ease;
-  }
+.heart{
+  position:absolute;
+  width:16px;
+  height:16px;
+  background:rgba(255,255,255,0.6);
+  transform:rotate(45deg);
+  animation:floatUp 7s linear infinite;
+}
 
-  #yesBtn{
-    background: white;
-    color:#ff2f6d;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
-  }
-  #yesBtn:hover{
-    transform: translateY(-2px) scale(1.02);
-    filter: brightness(1.02);
-  }
+.heart::before,.heart::after{
+  content:"";
+  position:absolute;
+  width:16px;
+  height:16px;
+  background:rgba(255,255,255,0.6);
+  border-radius:50%;
+}
 
-  /* NO button: always visible + moves inside screen */
-  #noBtn{
-    background: rgba(0,0,0,0.25);
+.heart::before{ left:-8px; }
+.heart::after{ top:-8px; }
+
+@keyframes floatUp{
+  0%{ transform:translateY(100vh) rotate(45deg); opacity:0; }
+  20%{ opacity:1; }
+  100%{ transform:translateY(-120px) rotate(45deg); opacity:0; }
+}
+
+/* ================= CARD ================= */
+
+.card{
+  width:min(420px, 92vw);
+  padding:30px 24px;
+  border-radius:24px;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(12px);
+  box-shadow:0 20px 50px rgba(0,0,0,0.3);
+  text-align:center;
   color:white;
-  border: 1px solid rgba(255,255,255,0.25);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  position:relative;
+  z-index:5;
+}
 
-  position: fixed;
-  left: 0;
-  top: 0;
+h1{
+  margin:0 0 10px;
+}
 
-  z-index: 999;
-  user-select:none;
-  touch-action: none;
+p{
+  margin:0 0 20px;
+}
 
-  /* smoother movement */
-  will-change: transform;
-  }
+button{
+  border:none;
+  padding:14px 22px;
+  border-radius:999px;
+  font-size:18px;
+  font-weight:800;
+  cursor:pointer;
+  transition:transform 0.2s ease;
+}
 
-  /* Flower hidden until YES */
-  .flowerScene{
-    display:none;
-    width:260px;
-    height:380px;
-    position:relative;
-    margin: 18px auto 0;
-    animation: popIn 0.6s ease-out forwards;
-  }
+#yesBtn{
+  background:white;
+  color:#ff2f6d;
+}
 
-  @keyframes popIn{
-    from{ transform: scale(0.85); opacity:0; }
-    to{ transform: scale(1); opacity:1; }
-  }
+#noBtn{
+  background:rgba(0,0,0,0.3);
+  color:white;
+  border:1px solid rgba(255,255,255,0.3);
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:999;
+  will-change:transform;
+}
 
-  /* Flower */
-  .flower{
-    width:240px;
-    height:360px;
-    position:relative;
-    display:grid;
-    place-items:center;
-    animation: sway 3.2s ease-in-out infinite;
-    transform-origin: bottom center;
-    margin:auto;
-  }
+/* ================= FLOWER ================= */
 
-  @keyframes sway{
-    0%,100%{ transform: rotate(-2deg); }
-    50%{ transform: rotate(2deg); }
-  }
+.flowerScene{
+  display:none;
+  margin-top:20px;
+  animation:fadeIn 1s ease forwards;
+}
 
-  .stem{
-    position:absolute;
-    bottom:50px;
-    width:12px;
-    height:190px;
-    background: linear-gradient(to bottom, #2ecc71, #136b36);
-    border-radius: 20px;
-    box-shadow: inset -3px 0 6px rgba(0,0,0,0.18);
-    z-index: 1;
-  }
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(20px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 
-  .leaf{
-    position:absolute;
-    width:90px;
-    height:48px;
-    background: linear-gradient(to right, #33d878, #0f6a35);
-    border-radius: 90px 90px 90px 0;
-    box-shadow:
-      inset 0 10px 14px rgba(255,255,255,0.12),
-      inset 0 -12px 18px rgba(0,0,0,0.22);
-    z-index: 2;
-  }
-  .leaf.left{
-    top:220px;
-    left:38px;
-    transform: rotate(-20deg);
-  }
-  .leaf.right{
-    top:250px;
-    right:38px;
-    transform: rotate(200deg);
-  }
+.bigFlower{
+  font-size:240px;
+  display:inline-block;
+  animation:sway 3s ease-in-out infinite;
+  transform-origin:bottom center;
+  filter:drop-shadow(0 20px 30px rgba(0,0,0,0.5));
+}
 
-  .bloom{
-    position:absolute;
-    top:40px;
-    width:170px;
-    height:170px;
-    animation: bloom 2.2s ease-out forwards;
-    transform: scale(0.25);
-    opacity:0;
-    z-index: 5;
-  }
+@keyframes sway{
+  0%{ transform:rotate(-5deg); }
+  50%{ transform:rotate(5deg); }
+  100%{ transform:rotate(-5deg); }
+}
 
-  @keyframes bloom{
-    0%{ transform: scale(0.25) rotate(-15deg); opacity:0; }
-    65%{ transform: scale(1.08) rotate(4deg); opacity:1; }
-    100%{ transform: scale(1) rotate(0deg); opacity:1; }
-  }
+.yay{
+  font-size:22px;
+  font-weight:900;
+  margin-top:15px;
+}
 
-  .petal{
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:72px;
-    height:92px;
-    transform: translate(-50%,-50%);
-    border-radius: 70% 70% 65% 65%;
-    background: radial-gradient(circle at 30% 25%, #ffd0dc 0%, #ff2f6d 55%, #b1003a 100%);
-    box-shadow:
-      inset 0 10px 18px rgba(255,255,255,0.25),
-      inset 0 -14px 20px rgba(0,0,0,0.15);
-  }
-
-  .petal.p1{ transform: translate(-50%,-50%) rotate(0deg) translateY(-46px); }
-  .petal.p2{ transform: translate(-50%,-50%) rotate(45deg) translateY(-46px); }
-  .petal.p3{ transform: translate(-50%,-50%) rotate(90deg) translateY(-46px); }
-  .petal.p4{ transform: translate(-50%,-50%) rotate(135deg) translateY(-46px); }
-  .petal.p5{ transform: translate(-50%,-50%) rotate(180deg) translateY(-46px); }
-  .petal.p6{ transform: translate(-50%,-50%) rotate(225deg) translateY(-46px); }
-  .petal.p7{ transform: translate(-50%,-50%) rotate(270deg) translateY(-46px); }
-  .petal.p8{ transform: translate(-50%,-50%) rotate(315deg) translateY(-46px); }
-
-  .petal.inner{
-    width:56px;
-    height:72px;
-    background: radial-gradient(circle at 30% 25%, #ffe0e9 0%, #ff2f6d 60%, #99002f 100%);
-  }
-  .petal.i1{ transform: translate(-50%,-50%) rotate(15deg) translateY(-24px); }
-  .petal.i2{ transform: translate(-50%,-50%) rotate(75deg) translateY(-24px); }
-  .petal.i3{ transform: translate(-50%,-50%) rotate(135deg) translateY(-24px); }
-  .petal.i4{ transform: translate(-50%,-50%) rotate(195deg) translateY(-24px); }
-  .petal.i5{ transform: translate(-50%,-50%) rotate(255deg) translateY(-24px); }
-  .petal.i6{ transform: translate(-50%,-50%) rotate(315deg) translateY(-24px); }
-
-  .bud{
-    position:absolute;
-    left:50%;
-    top:50%;
-    width:38px;
-    height:46px;
-    transform: translate(-50%,-50%);
-    border-radius: 60% 60% 70% 70%;
-    background: radial-gradient(circle at 30% 25%, #ffe3ec, #ff2f6d 65%, #7a0025 100%);
-    box-shadow:
-      inset 0 8px 12px rgba(255,255,255,0.25),
-      inset 0 -12px 16px rgba(0,0,0,0.2);
-  }
-
-  .yay{
-    margin-top:14px;
-    font-weight:900;
-    font-size:18px;
-    text-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  }
-
-  .hidden{
-    display:none !important;
-  }
 </style>
 </head>
-
 <body>
 
-  <!-- hearts -->
-  <div class="heart" style="left: 8%; animation-delay: 0s;"></div>
-  <div class="heart" style="left: 22%; animation-delay: 1.1s;"></div>
-  <div class="heart" style="left: 38%; animation-delay: 2.2s;"></div>
-  <div class="heart" style="left: 55%; animation-delay: 0.7s;"></div>
-  <div class="heart" style="left: 70%; animation-delay: 1.9s;"></div>
-  <div class="heart" style="left: 85%; animation-delay: 2.8s;"></div>
+<!-- Background Carousel -->
+<div class="bg-carousel">
+  <div class="bg-slide active" style="background-image:url('Artboard 1.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('Artboard 2.jpg')"></div>
+  <div class="bg-slide" style="background-image:url('Artboard 3.jpg')"></div>
+</div>
 
-  <div class="card" id="card">
-    <h1>Do you Love me? 🥹🥹💘</h1>
-    <p>Choose wisely Vivienne Ria! 😍😤</p>
+<!-- Hearts -->
+<div class="heart" style="left:10%; animation-delay:0s;"></div>
+<div class="heart" style="left:30%; animation-delay:2s;"></div>
+<div class="heart" style="left:60%; animation-delay:1s;"></div>
+<div class="heart" style="left:80%; animation-delay:3s;"></div>
 
-    <div class="btn-row">
-      <button id="yesBtn">YES 💖</button>
-    </div>
+<div class="card">
+  <h1>Do you Really Love me? 🥹🥹💘</h1>
+  <p>Choose wisely Vivienne Ria! 😍😤</p>
 
-    <div class="flowerScene" id="flowerScene">
-      <div class="flower">
-        <div class="stem"></div>
-        <div class="leaf left"></div>
-        <div class="leaf right"></div>
+  <button id="yesBtn">YES 💖</button>
 
-        <div class="bloom">
-          <div class="petal p1"></div>
-          <div class="petal p2"></div>
-          <div class="petal p3"></div>
-          <div class="petal p4"></div>
-          <div class="petal p5"></div>
-          <div class="petal p6"></div>
-          <div class="petal p7"></div>
-          <div class="petal p8"></div>
-
-          <div class="petal inner i1"></div>
-          <div class="petal inner i2"></div>
-          <div class="petal inner i3"></div>
-          <div class="petal inner i4"></div>
-          <div class="petal inner i5"></div>
-          <div class="petal inner i6"></div>
-
-          <div class="bud"></div>
-        </div>
-      </div>
-
-      <div class="yay">I Love you more My baby, Happy Valentines pooo 💞🥹</div>
-    </div>
+  <div class="flowerScene" id="flowerScene">
+    <div class="bigFlower">🌹</div>
+    <div class="yay">I Love you more My baby, Happy Valentines pooo 💞🥹</div>
   </div>
+</div>
 
-  <!-- NO button always visible -->
-  <button id="noBtn">NO 🤬</button>
+<button id="noBtn">NO 🤬</button>
 
 <script>
-  const noBtn = document.getElementById("noBtn");
-  const yesBtn = document.getElementById("yesBtn");
-  const flowerScene = document.getElementById("flowerScene");
 
-  let pos = { x: 0, y: 0 };
-  let target = { x: 0, y: 0 };
-  let animating = false;
+/* ===== Background Carousel ===== */
+const slides = document.querySelectorAll(".bg-slide");
+let currentSlide = 0;
 
-  function clamp(v, min, max){
-    return Math.max(min, Math.min(max, v));
+setInterval(() => {
+  slides[currentSlide].classList.remove("active");
+  currentSlide = (currentSlide + 1) % slides.length;
+  slides[currentSlide].classList.add("active");
+}, 5000);
+
+/* ===== Buttons ===== */
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const flowerScene = document.getElementById("flowerScene");
+const title = document.querySelector("h1");
+const subtitle = document.querySelector("p");
+
+let pos = {x:0,y:0};
+let target = {x:0,y:0};
+let animating = false;
+let yesScale = 1;
+
+function smoothMove(){
+  animating = true;
+  const ease = 0.08;
+
+  pos.x += (target.x - pos.x) * ease;
+  pos.y += (target.y - pos.y) * ease;
+
+  noBtn.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+
+  if(Math.abs(target.x-pos.x)>0.5 || Math.abs(target.y-pos.y)>0.5){
+    requestAnimationFrame(smoothMove);
+  } else {
+    animating = false;
   }
+}
 
-  function viewport(){
-    const vv = window.visualViewport;
-    return {
-      w: vv ? vv.width : window.innerWidth,
-      h: vv ? vv.height : window.innerHeight
-    };
-  }
+function dodge(){
+  const padding = 20;
+  const rect = noBtn.getBoundingClientRect();
 
-  function setTargetRandom(){
-    const padding = 18;
-    const rect = noBtn.getBoundingClientRect();
-    const vp = viewport();
+  const maxX = window.innerWidth - rect.width - padding;
+  const maxY = window.innerHeight - rect.height - padding;
 
-    const maxX = vp.w - rect.width - padding;
-    const maxY = vp.h - rect.height - padding;
+  target.x = Math.random()*maxX;
+  target.y = Math.random()*maxY;
 
-    target.x = clamp(Math.random() * maxX, padding, maxX);
-    target.y = clamp(Math.random() * maxY, padding, maxY);
+  if(!animating) smoothMove();
 
-    if(!animating) animate();
-  }
+  /* Grow YES button */
+  yesScale += 0.1;
+  yesBtn.style.transform = `scale(${yesScale})`;
+}
 
-  // Smooth easing movement
-  function animate(){
-    animating = true;
+noBtn.addEventListener("mouseenter", dodge);
+noBtn.addEventListener("mousedown", dodge);
 
-    const ease = 0.14; // lower = slower, higher = snappier
-    pos.x += (target.x - pos.x) * ease;
-    pos.y += (target.y - pos.y) * ease;
+yesBtn.addEventListener("click", () => {
+  title.style.display="none";
+  subtitle.style.display="none";
+  yesBtn.style.display="none";
+  noBtn.style.display="none";
+  flowerScene.style.display="block";
+});
 
-    noBtn.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+window.addEventListener("load", dodge);
 
-    const dx = Math.abs(target.x - pos.x);
-    const dy = Math.abs(target.y - pos.y);
-
-    // stop when close enough
-    if(dx < 0.5 && dy < 0.5){
-      pos.x = target.x;
-      pos.y = target.y;
-      noBtn.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-      animating = false;
-      return;
-    }
-
-    requestAnimationFrame(animate);
-  }
-
-  // Place NO beside YES at start
-  function placeNoBesideYes(){
-    const rectYes = yesBtn.getBoundingClientRect();
-    const rectNo = noBtn.getBoundingClientRect();
-    const vp = viewport();
-    const padding = 18;
-
-    let startX = rectYes.right + 14;
-    let startY = rectYes.top + rectYes.height/2 - rectNo.height/2;
-
-    startX = clamp(startX, padding, vp.w - rectNo.width - padding);
-    startY = clamp(startY, padding, vp.h - rectNo.height - padding);
-
-    pos.x = target.x = startX;
-    pos.y = target.y = startY;
-
-    noBtn.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-  }
-
-  // Dodge triggers
-  function dodge(){
-    setTargetRandom();
-  }
-
-  noBtn.addEventListener("mouseenter", dodge);
-  noBtn.addEventListener("mousedown", dodge);
-
-  // Mobile: dodge when finger is close
-  window.addEventListener("touchstart", (e) => {
-    const touch = e.touches[0];
-    const rect = noBtn.getBoundingClientRect();
-
-    const nearX = touch.clientX > rect.left - 70 && touch.clientX < rect.right + 70;
-    const nearY = touch.clientY > rect.top - 70 && touch.clientY < rect.bottom + 70;
-
-    if(nearX && nearY) dodge();
-  }, { passive:true });
-
-  // YES reveals flower
-  yesBtn.addEventListener("click", () => {
-    flowerScene.style.display = "block";
-    noBtn.classList.add("hidden");
-    yesBtn.classList.add("hidden");
-  });
-
-  // Keep NO visible on resize
-  function keepOnScreen(){
-    const padding = 18;
-    const rect = noBtn.getBoundingClientRect();
-    const vp = viewport();
-
-    target.x = clamp(target.x, padding, vp.w - rect.width - padding);
-    target.y = clamp(target.y, padding, vp.h - rect.height - padding);
-
-    pos.x = clamp(pos.x, padding, vp.w - rect.width - padding);
-    pos.y = clamp(pos.y, padding, vp.h - rect.height - padding);
-
-    noBtn.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
-  }
-
-  window.addEventListener("resize", () => {
-    keepOnScreen();
-  });
-
-  if(window.visualViewport){
-    window.visualViewport.addEventListener("resize", keepOnScreen);
-  }
-
-  // init
-  window.addEventListener("load", () => {
-    placeNoBesideYes();
-  });
 </script>
-
 </body>
 </html>
 
